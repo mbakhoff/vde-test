@@ -1,9 +1,9 @@
 # prototype for vde over tcp
 
 ## building
-mkdir build
-cd build
-cmake ..
+mkdir build  
+cd build  
+cmake ..  
 make
 
 ## running
