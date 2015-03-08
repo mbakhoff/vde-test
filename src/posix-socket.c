@@ -16,7 +16,7 @@ static int parse_uint16(const char *str, uint16_t *result) {
     errno = 0;
     long port = strtol(str, NULL, 10);
     if (errno || port > UINT16_MAX || port < 0) {
-        return -1;
+        return 1;
     }
     *result = (uint16_t) port;
     return 0;
@@ -34,11 +34,11 @@ void socket_set(struct socket_node *s, struct sockaddr_in *binding, int fd) {
 int parse_ipv4(struct sockaddr_in *result, const char *address_str, const char *port_str) {
     struct in_addr address;
     if (inet_pton(AF_INET, address_str, &address) != 1) {
-        return -1;
+        return 1;
     }
     uint16_t port;
     if (parse_uint16(port_str, &port)) {
-        return -1;
+        return 1;
     }
     result->sin_family = AF_INET;
     result->sin_port = htons(port);
@@ -79,7 +79,7 @@ int socket_connect(struct socket_node *s, const char *address, const char *port)
         fprintf(stderr, "failed to parse %s:%s\n", address, port);
         return 1;
     }
-    int fd = socket(AF_INET, SOCK_STREAM, 0);
+    int fd = socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, 0);
     if (fd < 0) {
         return 1;
     }

@@ -2,7 +2,6 @@
 #include <stdio.h>
 
 #include <sys/poll.h>
-#include <libvdeplug.h>
 
 #include "channel.h"
 
@@ -45,7 +44,6 @@ void register_fds(struct channel *channel, struct pollfd *socket, struct pollfd 
 
     socket->fd = channel->socket.fd;
     socket->events = 0;
-
     vde->fd = channel->vde.fd;
     vde->events = 0;
 
